@@ -4,13 +4,25 @@ description: MiniMax文生图(T2I)和图生图(I2I)工具 / MiniMax image genera
 metadata: {"openclaw": {"homepage": "https://github.com/lixiang92229/Minimax-Image-Generation-Skills"}}
 ---
 
-# MiniMax Image Generation Skill
+# Minimax Image Generation Skill
 
 ## 概述 | Overview
 
 通过 MiniMax API 实现**文生图（T2I）**和**图生图（I2I）**功能。
 
 Supports **Text-to-Image** and **Image-to-Image** generation via MiniMax API.
+
+---
+
+## 环境变量 | Environment Variables
+
+| 变量名 | 必填 | 说明 |
+|--------|------|------|
+| `MINIMAX_API_KEY` | 是 | MiniMax API密钥 / MiniMax API Key |
+
+> ⚠️ **重要**: 本skill需要 `MINIMAX_API_KEY` 环境变量才能运行。请从 [MiniMax开放平台](https://platform.minimaxi.com) 获取API Key。
+
+---
 
 ## 功能 | Features
 
@@ -68,6 +80,8 @@ result = generate_image(
 )
 ```
 
+---
+
 ## 命令行使用 | CLI Usage
 
 ```bash
@@ -84,6 +98,8 @@ python3 scripts/image_gen.py -p "穿着西装" -r "3:4" --reference "https://exa
 python3 scripts/image_gen.py -p "海边日落" -s "水彩" -r "16:9"
 ```
 
+---
+
 ## 参数说明 | Parameters
 
 | 参数 | 默认值 | 说明 |
@@ -94,28 +110,46 @@ python3 scripts/image_gen.py -p "海边日落" -s "水彩" -r "16:9"
 | `--n` | 1 | 生成数量1-9 / Number of images [1-9] |
 | `--style, -s` | - | 画风类型（仅image-01-live）/ Style type for image-01-live |
 | `--reference, -ref` | - | 参考图URL或base64（用于图生图）/ Reference image URL or base64 |
-| `--output, -o` | - | 输出路径 / Output file path |
+| `--output, -o` | - | 输出路径 / Output file path（默认: /home/ubuntu/.openclaw/workspace/images）|
 | `--base64` | false | 返回base64格式 / Return base64 instead of downloading |
+
+---
 
 ## 输出 | Output
 
-脚本自动下载图片到 `/home/ubuntu/.openclaw/workspace/images/`
+默认输出目录: `/home/ubuntu/.openclaw/workspace/images/`
 
-Script auto-downloads images to workspace images directory.
+可通过 `--output` 参数自定义路径 / Can be customized via `--output` parameter.
 
 返回 / Returns:
 - `image_urls`: 图片URL列表 / List of image URLs
 - `_local_paths`: 本地保存路径 / Local saved file paths
 
-## 环境要求 | Requirements
+---
 
-需要设置 `MINIMAX_API_KEY` 环境变量 / Requires `MINIMAX_API_KEY` environment variable:
+## ⚠️ 安全风险提示 | Security Warnings
 
-```bash
-export MINIMAX_API_KEY="your-api-key-here"
-```
+### 1. API密钥安全 / API Key Security
+- 🔐 **必须设置 `MINIMAX_API_KEY` 环境变量**
+- 🔐 请勿将API Key提交到版本控制系统
+- 🔐 建议使用限额的API Key，定期轮换
 
-API Key 获取地址 / Get API Key: https://platform.minimaxi.com
+### 2. 参考图隐私风险 / Reference Image Privacy Risk
+- ⚠️ **图生图功能会将参考图片上传到MiniMax API**
+- ⚠️ 请勿使用敏感或私人图片作为参考图
+- ⚠️ 除非您信任MiniMax的服务及其隐私政策
+
+### 3. 网络访问 / Network Access
+- 🌐 本skill会访问 `https://api.minimaxi.com`
+- 🌐 生成的图片URL有效期为24小时
+- 🌐 请确认您的网络环境允许访问上述地址
+
+### 4. 文件写入 / File Write
+- 📁 默认保存到 `/home/ubuntu/.openclaw/workspace/images/`
+- 📁 可通过 `--output` 参数修改保存路径
+- 📁 请确保目标目录有写入权限
+
+---
 
 ## 注意事项 | Notes
 
@@ -123,6 +157,8 @@ API Key 获取地址 / Get API Key: https://platform.minimaxi.com
 - ⚠️ 图片URL有效期24小时 / Image URLs expire in 24 hours
 - 图片建议小于10MB / Image should be under 10MB
 - 参考图建议单人正面照片 / Reference: single person, frontal photo works best
+
+---
 
 ## 详细API文档 | Full API Reference
 

@@ -58,12 +58,28 @@ python3 scripts/image_gen.py -p "Sunset at the beach" -s "watercolor" -r "16:9"
 | `-n` | 1 | Number of images [1-9] |
 | `-s, --style` | - | Style type (image-01-live only) |
 | `--reference` | - | Reference image URL or base64 (for I2I) |
+| `-o, --output` | /home/ubuntu/.openclaw/workspace/images/ | Output directory |
 
-### Security Notes
+### ⚠️ Security Warnings
 
-- 🔐 Never commit your API key to version control
-- 🔗 Reference image URLs are sent to the MiniMax API
-- ⚠️ Do not use sensitive/private image URLs unless you trust the service
+#### 1. API Key Security
+- 🔐 You MUST set `MINIMAX_API_KEY` environment variable
+- 🔐 Never commit API keys to version control
+- 🔐 Use scoped API keys with billing limits when possible
+
+#### 2. Reference Image Privacy
+- ⚠️ **Image-to-Image uploads reference images to MiniMax API**
+- ⚠️ Do NOT use sensitive or private images as references
+- ⚠️ Only use if you trust MiniMax's privacy policy
+
+#### 3. Network Access
+- 🌐 This skill accesses `https://api.minimaxi.com`
+- 🌐 Generated image URLs expire in 24 hours
+- 🌐 Ensure your network allows access to the above domain
+
+#### 4. File Write
+- 📁 Default output: `/home/ubuntu/.openclaw/workspace/images/`
+- 📁 Can be changed via `--output` parameter
 
 ### License
 
@@ -75,7 +91,7 @@ MIT License
 
 ### 概述
 
-这是面向 **OpenClaw** 的 **MiniMax 图片生成 Skill**。支持**文生图（T2I）**和**图生图（I2I）**两种模式。
+这是面向 **OpenClaw** 的 **Minimax 图片生成 Skill**。支持**文生图（T2I）**和**图生图（I2I）**两种模式。
 
 ### 功能特点
 
@@ -87,7 +103,7 @@ MIT License
 
 ### 环境要求
 
-- **MiniMax API Key** — 从 [MiniMax 开放平台](https://platform.minimaxi.com) 获取
+- **Minimax API Key** — 从 [Minimax 开放平台](https://platform.minimaxi.com) 获取
 - OpenClaw 环境
 
 ### 安装方式
@@ -125,12 +141,28 @@ python3 scripts/image_gen.py -p "海边日落" -s "水彩" -r "16:9"
 | `-n` | 1 | 生成数量 [1-9] |
 | `-s, --style` | - | 画风类型（仅 image-01-live） |
 | `--reference` | - | 参考图URL或base64（图生图用） |
+| `-o, --output` | /home/ubuntu/.openclaw/workspace/images/ | 输出目录 |
 
-### 安全须知
+### ⚠️ 安全风险提示
 
-- 🔐 切勿将 API Key 提交到版本控制
-- 🔗 参考图URL会发送到 MiniMax API
-- ⚠️ 请勿使用敏感/私有图片URL，除非你信任该服务商
+#### 1. API密钥安全
+- 🔐 **必须设置 `MINIMAX_API_KEY` 环境变量**
+- 🔐 请勿将API Key提交到版本控制系统
+- 🔐 建议使用有限额的API Key，定期轮换
+
+#### 2. 参考图隐私风险
+- ⚠️ **图生图功能会将参考图片上传到Minimax API**
+- ⚠️ 请勿使用敏感或私人图片作为参考图
+- ⚠️ 仅在您信任Minimax的隐私政策时使用
+
+#### 3. 网络访问
+- 🌐 本skill会访问 `https://api.minimaxi.com`
+- 🌐 生成的图片URL有效期为24小时
+- 🌐 请确认您的网络环境允许访问上述地址
+
+#### 4. 文件写入
+- 📁 默认输出目录：`/home/ubuntu/.openclaw/workspace/images/`
+- 📁 可通过 `--output` 参数修改
 
 ### 开源协议
 

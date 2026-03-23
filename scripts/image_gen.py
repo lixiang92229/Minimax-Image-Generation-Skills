@@ -15,7 +15,7 @@ import urllib.error
 
 API_BASE = "https://api.minimaxi.com/v1/image_generation"
 
-# MiniMax API Key - can pass via --api-key argument or set MINIMAX_API_KEY env var
+# MiniMax API Key - set MINIMAX_API_KEY environment variable
 API_KEY = os.environ.get("MINIMAX_API_KEY", "")
 
 # Default output directory
