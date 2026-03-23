@@ -161,17 +161,12 @@ def main():
     parser.add_argument("--n", "-n", type=int, default=1, help="Number of images [1-9]")
     parser.add_argument("--output", "-o", help="Output path (single image)")
     parser.add_argument("--base64", action="store_true", help="Return base64 instead of downloading")
-    parser.add_argument("--api-key", help="MiniMax API Key (or set MINIMAX_API_KEY env var)")
     
     # 图生图参数
     parser.add_argument("--reference", "-ref", help="Reference image URL or base64 (for i2i)")
     parser.add_argument("--ref-type", default="character", help="Reference type: character (default)")
     
     args = parser.parse_args()
-    
-    # Use --api-key argument if provided, otherwise fall back to environment variable
-    if args.api_key:
-        os.environ["MINIMAX_API_KEY"] = args.api_key
     
     # 构建subject_reference（用于图生图）
     subject_reference = None
