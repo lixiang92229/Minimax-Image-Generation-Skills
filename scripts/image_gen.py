@@ -11,6 +11,7 @@ import sys
 import time
 import urllib.request
 import urllib.error
+from datetime import datetime
 
 
 API_BASE = "https://api.minimaxi.com/v1/image_generation"
@@ -20,6 +21,34 @@ API_KEY = os.environ.get("MINIMAX_API_KEY", "")
 
 # Default output directory
 OUTPUT_DIR = "/home/ubuntu/.openclaw/workspace/images"
+
+# Log file path
+LOG_FILE = "/home/ubuntu/.openclaw/workspace/minimax-image-generation-log.md"
+
+
+def log_image_generation(prompt: str, model: str, aspect_ratio: str, n: int, saved_paths: list, is_i2i: bool = False):
+    """Append a log entry to the generation log file."""
+    
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    generation_type = "图生图(I2I)" if is_i2i else "文生图(T2I)"
+    
+    # Truncate prompt for log
+    prompt_short = prompt[:80] + "..." if len(prompt) > 80 else prompt
+    
+    log_entry = f"| {timestamp} | {generation_type} | {prompt_short} | {n}张 | {aspect_ratio} | {', '.join(saved_paths) if saved_paths else 'N/A'} |\n"
+    
+    # Create file with header if it doesn't exist
+    if not os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "w", encoding="utf-8") as f:
+            f.write("# Minimax Image Generation (生图) 调用日志\n\n")
+            f.write("> 通过 minimax-image skill 调用 MiniMax Image Generation API\n\n")
+            f.write("## 调用日志\n\n")
+            f.write("| 时间 | 类型 | 内容 | 数量 | 比例 | 保存路径 |\n")
+            f.write("|------|------|------|------|------|------|\n")
+    
+    # Append log entry
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(log_entry)
 
 
 def generate_image(
@@ -193,6 +222,17 @@ def main():
         print(json.dumps(result, ensure_ascii=False), file=sys.stderr)
         sys.exit(1)
     else:
+        # Log successful generation
+        saved_paths = result.get("_local_paths", [])
+        is_i2i = subject_reference is not None
+        log_image_generation(
+            prompt=args.prompt,
+            model=args.model,
+            aspect_ratio=args.ratio,
+            n=args.n,
+            saved_paths=saved_paths,
+            is_i2i=is_i2i,
+        )
         print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
